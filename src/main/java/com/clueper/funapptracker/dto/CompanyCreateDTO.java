@@ -1,0 +1,14 @@
+package com.clueper.funapptracker.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class CompanyCreateDTO {
+    private String name;
+    private String logoUrl; // Can be optional
+
+}
