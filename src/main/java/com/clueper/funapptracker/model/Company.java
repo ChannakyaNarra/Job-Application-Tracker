@@ -2,10 +2,13 @@ package com.clueper.funapptracker.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -13,7 +16,7 @@ import java.util.UUID;
 @Table(name = "companies")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@Builder
 public class Company {
 
     @Id
@@ -34,5 +37,13 @@ public class Company {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Application> jobs;
+
+
+    public Company() {
+        this.createdAt =Timestamp.valueOf(LocalDateTime.now());
+    }
 
 }

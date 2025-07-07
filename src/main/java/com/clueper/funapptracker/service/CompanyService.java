@@ -1,3 +1,4 @@
+
 package com.clueper.funapptracker.service;
 
 import com.clueper.funapptracker.dto.CompanyCreateDTO;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -52,28 +54,28 @@ public class CompanyService {
      * @param userId The ID of the user.
      * @return A list of company DTOs.
      */
-    @Transactional(readOnly = true)
-    public List<CompanyDTO> getCompaniesForUser(UUID userId) {
-        List<Company> companies = companyRepository.findAllByUser_Id(userId);
+    //@Transactional(readOnly = true)
+    public List<CompanyDTO> getCompaniesForUser(String username) {
+        List<Company> companies = companyRepository.findAllByUser_Username(username);
         return companies.stream()
                 .map(this::mapToCompanyDTO)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Searches for companies by name for a given user.
-     * @param name The search term for the company name.
-     * @param userId The ID of the user.
-     * @return A list of matching company DTOs.
-     */
-    @Transactional(readOnly = true)
-    public List<CompanyDTO> searchCompaniesForUser(String name, UUID userId) {
-        List<Company> companies = companyRepository.findByNameContainingIgnoreCaseAndUser_Id(name, userId);
+//    /**
+//     * Searches for companies by name for a given user.
+//     * @param name The search term for the company name.
+//     * @param userId The ID of the user.
+//     * @return A list of matching company DTOs.
+//     */
+    //@Transactional(readOnly = true)
+    public List<CompanyDTO> searchCompaniesForUser(String name, String username) {
+        List<Company> companies = companyRepository.findByNameContainingIgnoreCaseAndUser_Username(name, username);
         return companies.stream()
                 .map(this::mapToCompanyDTO)
                 .collect(Collectors.toList());
     }
-
+//
     // Helper method to map a Company entity to a CompanyDTO
     private CompanyDTO mapToCompanyDTO(Company company) {
         return new CompanyDTO(
@@ -83,4 +85,46 @@ public class CompanyService {
                 company.getCreatedAt()
         );
     }
+
+//    public CompanyDTO create(CompanyCreateDTO request, String name) {
+//        User user=userRepository.findByUsername(name).orElseThrow();
+//        Company company=Company.builder()
+//                .logoUrl(request.getLogoUrl())
+//                .name(request.getName())
+//                .user(user)
+//                .build();
+//
+//        companyRepository.save(company);
+//        return mapToResponse(company);
+//
+//
+//    }
+//    public CourseResponse create(CourseRequest request,String username){
+//        User user=userRepo.findByUsername(username).orElseThrow();
+//        Course course=Course.builder()
+//                .title(request.getTitle())
+//                .description(request.getDescription())
+//                .user(user)
+//                .build();
+//        courseRepo.save(course);
+//        return mapToResponse(course);
+//    }
+
+//    private CompanyDTO mapToResponse(Company course) {
+//        return new CompanyDTO(course.getId(),course.getName(),course.getLogoUrl(),course.getCreatedAt());
+//    }
+//
+//    public List<CompanyDTO> getAll(String username) {
+//        User user=userRepository.findByUsername(username).orElseThrow();
+//        return companyRepository.findByUser(user).stream()
+//                .map(this::mapToResponse)
+//                .toList();
+//    }
+
+//    public List<CourseResponse> getAll(String username){
+//        User user=userRepo.findByUsername(username).orElseThrow();
+//        return courseRepo.findByUser(user).stream()
+//                .map(this::mapToResponse)
+//                .toList();
+//    }
 }

@@ -39,4 +39,26 @@ public class AuthController {
             return new ResponseEntity<>(new AuthResponseDTO("Invalid username or password"), HttpStatus.UNAUTHORIZED);
         }
     }
+
+
+//    private final AuthenticationManager authManager;
+//    private final UserService userService;
+//    private final JwtService jwtService;
+//
+//
+//    @PostMapping("/register")
+//    public ResponseEntity<String> register(@RequestBody AuthRequest request){
+//        userService.register(request.getUsername(),request.getPassword());
+//        return ResponseEntity.ok("User Registered Successfully");
+//    }
+//
+//    @PostMapping("/login")
+//    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request){
+//        authManager.authenticate(new UsernamePasswordAuthenticationToken(
+//                request.getUsername(),request.getPassword()
+//        ));
+//        UserDetails user=userService.loadUserByUsername(request.getUsername());
+//        String token=jwtService.generateToken(user);
+//        return ResponseEntity.ok(new AuthResponse(token));
+//    }
 }

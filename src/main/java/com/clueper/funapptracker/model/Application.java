@@ -2,18 +2,20 @@ package com.clueper.funapptracker.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "applications")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Application {
 
     @Id
@@ -49,5 +51,23 @@ public class Application {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "company_id", nullable = false) // Foreign key to companies table
+//    private Company company; // The company this job belongs to
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false) // Foreign key to users table (redundant but simplifies queries)
+    private User user; // The user who added this job (implicitly via company, but explicit is easier)
+
+//    @Column(name = "created_at", nullable = false)
+//    private LocalDateTime createdAt;
+
+    public Application() {
+        this.createdAt = Timestamp.valueOf(LocalDateTime.now());
+    }
+
+
+
 
 }
